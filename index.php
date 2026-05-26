@@ -412,22 +412,22 @@ tbody tr:hover{background:#fafbfd;}
         <div class="mf-row">
           <div class="mf-group">
             <label>No. Telepon</label>
-            <input type="text" id="f-no_telefon" placeholder="08xxxxxxxxxx"/>
+            <input type="text" id="f-no_telefon2" placeholder="08xxxxxxxxxx"/>
           </div>
         </div>
         <div class="mf-row">
           <div class="mf-group">
             <label>Tanggal Terbit Izin/Sertifikat</label>
-            <input type="date" id="f-tanggal_terbit"/>
+            <input type="date" id="f-tanggal_terbit2"/>
           </div>
           <div class="mf-group">
             <label>Masa Berlaku Sertifikat</label>
-            <input type="date" id="f-masa_berlaku"/>
+            <input type="date" id="f-masa_berlaku2"/>
           </div>
         </div>
         <div id="section-gdrive" class="mf-group">
           <label>Link Google Drive</label>
-          <input type="url" id="f-link_gdrive" placeholder="https://drive.google.com/..." />
+          <input type="url" id="f-link_gdrive2" placeholder="https://drive.google.com/..." />
         </div>
       </div>
     </div>
@@ -687,8 +687,13 @@ async function openModal(table, id) {
   document.getElementById('section-psat-fields').style.display = isPsatTable ? 'block' : 'none';
   document.getElementById('section-standard-fields').style.display = isPsatTable ? 'none' : 'block';
   
-  // Clear all fields
+  // Clear all fields (both PSAT and standard)
   ['nama','nama_usaha','alamat','no_telefon','link_gdrive','izin','email','tanggal_terbit','masa_berlaku'].forEach(f => {
+    const el = document.getElementById('f-'+f);
+    if (el) el.value = '';
+  });
+  // Clear standard fields with suffix 2
+  ['no_telefon2','link_gdrive2','tanggal_terbit2','masa_berlaku2'].forEach(f => {
     const el = document.getElementById('f-'+f);
     if (el) el.value = '';
   });
@@ -710,10 +715,10 @@ async function openModal(table, id) {
         document.getElementById('f-masa_berlaku').value = r.masa_berlaku || '';
       } else {
         document.getElementById('f-alamat').value = r.alamat || '';
-        document.getElementById('f-no_telefon').value = r.no_telefon || '';
-        document.getElementById('f-link_gdrive').value = r.link_gdrive || '';
-        document.getElementById('f-tanggal_terbit').value = r.tanggal_terbit || '';
-        document.getElementById('f-masa_berlaku').value = r.masa_berlaku || '';
+        document.getElementById('f-no_telefon2').value = r.no_telefon || '';
+        document.getElementById('f-link_gdrive2').value = r.link_gdrive || '';
+        document.getElementById('f-tanggal_terbit2').value = r.tanggal_terbit || '';
+        document.getElementById('f-masa_berlaku2').value = r.masa_berlaku || '';
       }
     }
   } else {
@@ -757,12 +762,13 @@ async function saveData() {
     body.masa_berlaku = document.getElementById('f-masa_berlaku').value;
   } else {
     body.alamat = document.getElementById('f-alamat').value;
-    body.no_telefon = document.getElementById('f-no_telefon').value;
-    body.link_gdrive = document.getElementById('f-link_gdrive').value;
-    body.tanggal_terbit = document.getElementById('f-tanggal_terbit').value;
-    body.masa_berlaku = document.getElementById('f-masa_berlaku').value;
+    body.no_telefon = document.getElementById('f-no_telefon2').value;
+    body.link_gdrive = document.getElementById('f-link_gdrive2').value;
+    body.tanggal_terbit = document.getElementById('f-tanggal_terbit2').value;
+    body.masa_berlaku = document.getElementById('f-masa_berlaku2').value;
   }
   
+  console.log('Sending to server:', body);
   const res = await api(body);
   btn.disabled = false; btn.textContent = (id ? 'Perbarui' : 'Simpan');
   if (res.success) {
