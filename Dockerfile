@@ -1,22 +1,15 @@
-FROM php:8.2-apache
+FROM php:8.2-cli
 
-# Set working directory
-WORKDIR /var/www/html
+WORKDIR /app
 
-# Install PHP extensions needed
+# Install MySQL extension
 RUN docker-php-ext-install mysqli
-
-# Enable Apache rewrite module
-RUN a2enmod rewrite
 
 # Copy application
 COPY . .
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html
+# Expose port
+EXPOSE 8080
 
-# Expose port 80
-EXPOSE 80
-
-# Start Apache
-CMD ["apache2-foreground"]
+# Start PHP built-in server
+CMD ["php", "-S", "0.0.0.0:8080"]
