@@ -172,7 +172,7 @@ switch ($action) {
             // PSAT dan Izin Lainnya memiliki kolom khusus
             $izin          = trim($_POST['izin'] ?? '');
             $email         = trim($_POST['email'] ?? '');
-            $link_gdrive   = trim($_POST['link_gdrive'] ?? '') ?: NULL;
+            $link_gdrive   = trim($_POST['link_gdrive'] ?? '');
             $tanggal_terbit = trim($_POST['tanggal_terbit'] ?? '') ?: NULL;
             $masa_berlaku  = trim($_POST['masa_berlaku'] ?? '') ?: NULL;
             if (!$izin) { echo json_encode(['success'=>false,'message'=>'Jenis izin wajib diisi.']); break; }
@@ -183,7 +183,7 @@ switch ($action) {
             $stmt->bind_param('ssssssss', $nama,$nama_usaha,$izin,$no_telefon,$email,$link_gdrive,$tanggal_terbit,$masa_berlaku);
         } else {
             // Tabel lain (nib, pirt, bpom, halal, merek, pt) - semua punya struktur sama
-            $link_gdrive    = trim($_POST['link_gdrive'] ?? '') ?: NULL;
+            $link_gdrive    = trim($_POST['link_gdrive'] ?? '');
             $tanggal_terbit = trim($_POST['tanggal_terbit'] ?? '') ?: NULL;
             $masa_berlaku   = trim($_POST['masa_berlaku'] ?? '') ?: NULL;
             $stmt = $db->prepare("INSERT INTO `$table` (nama,nama_usaha,alamat,no_telefon,link_gdrive,tanggal_terbit,masa_berlaku) VALUES (?,?,?,?,?,?,?)");
@@ -212,7 +212,7 @@ switch ($action) {
             // PSAT dan Izin Lainnya memiliki kolom khusus
             $izin          = trim($_POST['izin'] ?? '');
             $email         = trim($_POST['email'] ?? '');
-            $link_gdrive   = trim($_POST['link_gdrive'] ?? '') ?: NULL;
+            $link_gdrive   = trim($_POST['link_gdrive'] ?? '');
             $tanggal_terbit = trim($_POST['tanggal_terbit'] ?? '') ?: NULL;
             $masa_berlaku  = trim($_POST['masa_berlaku'] ?? '') ?: NULL;
             if (!$izin) { echo json_encode(['success'=>false,'message'=>'Jenis izin wajib diisi.']); break; }
@@ -223,7 +223,7 @@ switch ($action) {
             $stmt->bind_param('ssssssssi', $nama,$nama_usaha,$izin,$no_telefon,$email,$link_gdrive,$tanggal_terbit,$masa_berlaku,$id);
         } else {
             // Tabel lain (nib, pirt, bpom, halal, merek, pt) - semua punya struktur sama
-            $link_gdrive    = trim($_POST['link_gdrive'] ?? '') ?: NULL;
+            $link_gdrive    = trim($_POST['link_gdrive'] ?? '');
             $tanggal_terbit = trim($_POST['tanggal_terbit'] ?? '') ?: NULL;
             $masa_berlaku   = trim($_POST['masa_berlaku'] ?? '') ?: NULL;
             $stmt = $db->prepare("UPDATE `$table` SET nama=?,nama_usaha=?,alamat=?,no_telefon=?,link_gdrive=?,tanggal_terbit=?,masa_berlaku=? WHERE id=?");
