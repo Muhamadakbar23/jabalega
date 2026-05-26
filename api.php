@@ -186,10 +186,12 @@ switch ($action) {
             $stmt = $db->prepare("INSERT INTO `$table` (nama,nama_usaha,alamat,no_telefon) VALUES (?,?,?,?)");
             $stmt->bind_param('ssss', $nama,$nama_usaha,$alamat,$no_telefon);
         } else {
-            // Tabel lain memiliki Google Drive
-            $link_gdrive = trim($_POST['link_gdrive'] ?? '');
-            $stmt = $db->prepare("INSERT INTO `$table` (nama,nama_usaha,alamat,no_telefon,link_gdrive) VALUES (?,?,?,?,?)");
-            $stmt->bind_param('sssss', $nama,$nama_usaha,$alamat,$no_telefon,$link_gdrive);
+            // Tabel lain (nib, pirt, bpom, halal) memiliki Google Drive, Tanggal Terbit, dan Masa Berlaku
+            $link_gdrive    = trim($_POST['link_gdrive'] ?? '');
+            $tanggal_terbit = trim($_POST['tanggal_terbit'] ?? '');
+            $masa_berlaku   = trim($_POST['masa_berlaku'] ?? '');
+            $stmt = $db->prepare("INSERT INTO `$table` (nama,nama_usaha,alamat,no_telefon,link_gdrive,tanggal_terbit,masa_berlaku) VALUES (?,?,?,?,?,?,?)");
+            $stmt->bind_param('sssssss', $nama,$nama_usaha,$alamat,$no_telefon,$link_gdrive,$tanggal_terbit,$masa_berlaku);
         }
         if ($stmt->execute()) {
             echo json_encode(['success'=>true,'id'=>$db->insert_id,'message'=>'Data berhasil ditambahkan.']);
@@ -227,9 +229,12 @@ switch ($action) {
             $stmt = $db->prepare("UPDATE `$table` SET nama=?,nama_usaha=?,alamat=?,no_telefon=? WHERE id=?");
             $stmt->bind_param('ssssi', $nama,$nama_usaha,$alamat,$no_telefon,$id);
         } else {
-            $link_gdrive = trim($_POST['link_gdrive'] ?? '');
-            $stmt = $db->prepare("UPDATE `$table` SET nama=?,nama_usaha=?,alamat=?,no_telefon=?,link_gdrive=? WHERE id=?");
-            $stmt->bind_param('sssssi', $nama,$nama_usaha,$alamat,$no_telefon,$link_gdrive,$id);
+            // Tabel lain (nib, pirt, bpom, halal) dengan Google Drive, Tanggal Terbit, dan Masa Berlaku
+            $link_gdrive    = trim($_POST['link_gdrive'] ?? '');
+            $tanggal_terbit = trim($_POST['tanggal_terbit'] ?? '');
+            $masa_berlaku   = trim($_POST['masa_berlaku'] ?? '');
+            $stmt = $db->prepare("UPDATE `$table` SET nama=?,nama_usaha=?,alamat=?,no_telefon=?,link_gdrive=?,tanggal_terbit=?,masa_berlaku=? WHERE id=?");
+            $stmt->bind_param('sssssssi', $nama,$nama_usaha,$alamat,$no_telefon,$link_gdrive,$tanggal_terbit,$masa_berlaku,$id);
         }
         if ($stmt->execute()) {
             echo json_encode(['success'=>true,'message'=>'Data berhasil diperbarui.']);

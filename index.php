@@ -712,6 +712,8 @@ async function openModal(table, id) {
         document.getElementById('f-alamat').value = r.alamat || '';
         document.getElementById('f-no_telefon').value = r.no_telefon || '';
         document.getElementById('f-link_gdrive').value = r.link_gdrive || '';
+        document.getElementById('f-tanggal_terbit').value = r.tanggal_terbit || '';
+        document.getElementById('f-masa_berlaku').value = r.masa_berlaku || '';
       }
     }
   } else {
@@ -757,6 +759,8 @@ async function saveData() {
     body.alamat = document.getElementById('f-alamat').value;
     body.no_telefon = document.getElementById('f-no_telefon').value;
     body.link_gdrive = document.getElementById('f-link_gdrive').value;
+    body.tanggal_terbit = document.getElementById('f-tanggal_terbit').value;
+    body.masa_berlaku = document.getElementById('f-masa_berlaku').value;
   }
   
   const res = await api(body);
