@@ -1,9 +1,9 @@
 <?php
 // =============================================
-// KONFIGURASI DATABASE - Multi Environment Support
+// KONFIGURASI DATABASE - Multi Environment
 // =============================================
 
-// Load .env file if exists (untuk local development)
+// Load .env file jika ada (untuk development lokal)
 if (file_exists(__DIR__ . '/../.env')) {
     $env_file = parse_ini_file(__DIR__ . '/../.env');
     if ($env_file !== false) {
@@ -15,22 +15,19 @@ if (file_exists(__DIR__ . '/../.env')) {
     }
 }
 
-// Auto-detect environment based on hostname & environment variables
+// Auto-detect environment
 $is_localhost = (
-    $_SERVER['HTTP_HOST'] ?? '' === 'localhost' || 
-    $_SERVER['HTTP_HOST'] ?? '' === '127.0.0.1' ||
     strpos($_SERVER['HTTP_HOST'] ?? '', 'localhost') !== false ||
-    php_uname('n') === 'LAPTOP' ||
-    defined('LOCALHOST') ||
+    strpos($_SERVER['HTTP_HOST'] ?? '', '127.0.0.1') !== false ||
     getenv('ENVIRONMENT') === 'DEVELOPMENT'
 );
 
-// Get database config from environment or use defaults
+// Get database config dari environment atau default
 $db_config = [
-    'host' => getenv('DB_HOST') ?: ($is_localhost ? 'localhost' : 'sql204.infinityfree.com'),
-    'user' => getenv('DB_USER') ?: ($is_localhost ? 'root' : 'inf_41939326'),
-    'pass' => getenv('DB_PASS') ?: ($is_localhost ? '' : 'TcSzIcSQxSb'),
-    'name' => getenv('DB_NAME') ?: ($is_localhost ? 'jabalega' : 'inf_41939326_jabalega'),
+    'host' => getenv('DB_HOST') ?: ($is_localhost ? 'localhost' : 'railway'),
+    'user' => getenv('DB_USER') ?: 'root',
+    'pass' => getenv('DB_PASS') ?: '',
+    'name' => getenv('DB_NAME') ?: 'jabalega',
     'port' => getenv('DB_PORT') ?: 3306,
 ];
 
@@ -44,51 +41,35 @@ define('ENVIRONMENT', $is_localhost ? 'DEVELOPMENT' : 'PRODUCTION');
 define('SITE_NAME', 'Jabalega Admin');
 define('SITE_VERSION', '1.0');
 
-// Koneksi database dengan error handling lebih baik
+// Koneksi database dengan error handling
 function getDB() {
     static $conn = null;
     if ($conn === null) {
-        // Try with different ports for InfinityFree (sometimes uses port 3306 or 3307)
-        $ports = [DB_PORT, 3306, 3307];
-        $host = DB_HOST;
-        $last_error = '';
+        $conn = new mysqli(
+            DB_HOST,
+            DB_USER,
+            DB_PASS,
+            DB_NAME,
+            DB_PORT
+        );
         
-        foreach ($ports as $port) {
-            $conn = new mysqli(
-                $host,
-                DB_USER,
-                DB_PASS,
-                DB_NAME,
-                $port
-            );
-            
-            if (!$conn->connect_error) {
-                // Connection successful
-                $conn->set_charset('utf8mb4');
-                return $conn;
-            }
-            
-            $last_error = $conn->connect_error;
-            $conn = null;
+        if ($conn->connect_error) {
+            http_response_code(500);
+            $response = [
+                'success' => false,
+                'message' => 'Database connection failed',
+                'error' => $conn->connect_error,
+                'config' => [
+                    'host' => DB_HOST,
+                    'port' => DB_PORT,
+                    'database' => DB_NAME,
+                    'environment' => ENVIRONMENT
+                ]
+            ];
+            header('Content-Type: application/json');
+            die(json_encode($response));
         }
-        
-        // All connection attempts failed
-        http_response_code(500);
-        $response = [
-            'success' => false, 
-            'message' => 'Database connection failed',
-            'error' => $last_error,
-            'config' => [
-                'host' => DB_HOST,
-                'port' => DB_PORT,
-                'user' => DB_USER,
-                'database' => DB_NAME,
-                'environment' => ENVIRONMENT
-            ]
-        ];
-        
-        header('Content-Type: application/json');
-        die(json_encode($response));
+        $conn->set_charset('utf8mb4');
     }
     return $conn;
 }
@@ -110,14 +91,10 @@ define('STATUS_OPTIONS', ['Proses', 'Selesai', 'Pending', 'Dibatalkan']);
 
 // Kolom standar tiap tabel
 define('TABLE_COLUMNS', [
-    'nama'           => 'Nama Client',
-    'nama_usaha'     => 'Nama Usaha',
-    'alamat'         => 'Alamat',
-    'no_telefon'     => 'No. Telepon',
-    'tanggal_terbit' => 'Tanggal Terbit',
-    'masa_berlaku'   => 'Masa Berlaku',
-    'link_gdrive'    => 'Link Google Drive',
-    'email'          => 'Email',
-    'izin'           => 'Jenis Izin',
+    'nama'        => 'Nama Client',
+    'nama_usaha'  => 'Nama Usaha',
+    'alamat'      => 'Alamat',
+    'no_telefon'  => 'No. Telepon',
+    'link_gdrive' => 'Link Google Drive',
 ]);
 ?>

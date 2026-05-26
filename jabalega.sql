@@ -39,9 +39,7 @@ CREATE TABLE `bpom` (
   `nama` varchar(50) NOT NULL,
   `nama_usaha` text NOT NULL,
   `alamat` text NOT NULL,
-  `no_telefon` varchar(15) NOT NULL,
-  `tanggal_terbit` date,
-  `masa_berlaku` date,
+  `no_telefon` int(11) NOT NULL,
   `link_gdrive` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -56,9 +54,7 @@ CREATE TABLE `halal` (
   `nama` varchar(50) NOT NULL,
   `nama_usaha` text NOT NULL,
   `alamat` text NOT NULL,
-  `no_telefon` varchar(15) NOT NULL,
-  `tanggal_terbit` date,
-  `masa_berlaku` date,
+  `no_telefon` int(11) NOT NULL,
   `link_gdrive` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -73,10 +69,7 @@ CREATE TABLE `merek` (
   `nama` varchar(50) NOT NULL,
   `nama_usaha` text NOT NULL,
   `alamat` text NOT NULL,
-  `no_telefon` varchar(15) NOT NULL,
-  `tanggal_terbit` date,
-  `masa_berlaku` date,
-  `link_gdrive` text
+  `no_telefon` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -90,9 +83,7 @@ CREATE TABLE `nib` (
   `nama` varchar(50) NOT NULL,
   `nama_usaha` text NOT NULL,
   `alamat` text NOT NULL,
-  `no_telefon` varchar(15) NOT NULL,
-  `tanggal_terbit` date,
-  `masa_berlaku` date,
+  `no_telefon` int(11) NOT NULL,
   `link_gdrive` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -107,9 +98,7 @@ CREATE TABLE `pirt` (
   `nama` varchar(50) NOT NULL,
   `nama_usaha` text NOT NULL,
   `alamat` text NOT NULL,
-  `no_telefon` varchar(15) NOT NULL,
-  `tanggal_terbit` date,
-  `masa_berlaku` date,
+  `no_telefon` int(11) NOT NULL,
   `link_gdrive` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -160,10 +149,7 @@ CREATE TABLE `pt` (
   `nama` varchar(50) NOT NULL,
   `nama_usaha` text NOT NULL,
   `alamat` text NOT NULL,
-  `no_telefon` varchar(15) NOT NULL,
-  `tanggal_terbit` date,
-  `masa_berlaku` date,
-  `link_gdrive` text
+  `no_telefon` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -171,7 +157,7 @@ CREATE TABLE `pt` (
 --
 
 INSERT INTO `pt` (`nama`, `nama_usaha`, `alamat`, `no_telefon`) VALUES
-('vghvhvj', 'bvhjvkiubgi', 'vgjv jhvk', '0');
+('vghvhvj', 'bvhjvkiubgi', 'vgjv jhvk', 0);
 
 -- --------------------------------------------------------
 
