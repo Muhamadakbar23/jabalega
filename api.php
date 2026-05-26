@@ -181,12 +181,8 @@ switch ($action) {
             if (!$masa_berlaku) { echo json_encode(['success'=>false,'message'=>'Masa berlaku wajib diisi.']); break; }
             $stmt = $db->prepare("INSERT INTO `$table` (nama,nama_usaha,izin,no_telefon,email,link_gdrive,tanggal_terbit,masa_berlaku) VALUES (?,?,?,?,?,?,?,?)");
             $stmt->bind_param('ssssssss', $nama,$nama_usaha,$izin,$no_telefon,$email,$link_gdrive,$tanggal_terbit,$masa_berlaku);
-        } elseif (in_array($table, ['merek', 'pt'])) {
-            // PT dan Merek tidak ada Google Drive
-            $stmt = $db->prepare("INSERT INTO `$table` (nama,nama_usaha,alamat,no_telefon) VALUES (?,?,?,?)");
-            $stmt->bind_param('ssss', $nama,$nama_usaha,$alamat,$no_telefon);
         } else {
-            // Tabel lain (nib, pirt, bpom, halal) memiliki Google Drive, Tanggal Terbit, dan Masa Berlaku
+            // Tabel lain (nib, pirt, bpom, halal, merek, pt) - semua punya struktur sama
             $link_gdrive    = trim($_POST['link_gdrive'] ?? '');
             $tanggal_terbit = trim($_POST['tanggal_terbit'] ?? '');
             $masa_berlaku   = trim($_POST['masa_berlaku'] ?? '');
@@ -225,11 +221,8 @@ switch ($action) {
             if (!$masa_berlaku) { echo json_encode(['success'=>false,'message'=>'Masa berlaku wajib diisi.']); break; }
             $stmt = $db->prepare("UPDATE `$table` SET nama=?,nama_usaha=?,izin=?,no_telefon=?,email=?,link_gdrive=?,tanggal_terbit=?,masa_berlaku=? WHERE id=?");
             $stmt->bind_param('ssssssssi', $nama,$nama_usaha,$izin,$no_telefon,$email,$link_gdrive,$tanggal_terbit,$masa_berlaku,$id);
-        } elseif (in_array($table, ['merek', 'pt'])) {
-            $stmt = $db->prepare("UPDATE `$table` SET nama=?,nama_usaha=?,alamat=?,no_telefon=? WHERE id=?");
-            $stmt->bind_param('ssssi', $nama,$nama_usaha,$alamat,$no_telefon,$id);
         } else {
-            // Tabel lain (nib, pirt, bpom, halal) dengan Google Drive, Tanggal Terbit, dan Masa Berlaku
+            // Tabel lain (nib, pirt, bpom, halal, merek, pt) - semua punya struktur sama
             $link_gdrive    = trim($_POST['link_gdrive'] ?? '');
             $tanggal_terbit = trim($_POST['tanggal_terbit'] ?? '');
             $masa_berlaku   = trim($_POST['masa_berlaku'] ?? '');
