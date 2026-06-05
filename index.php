@@ -485,6 +485,11 @@ async function doLogin() {
   btn.disabled = true; btn.textContent = 'Memproses...';
   const res = await api({action:'login', username:u, password:p});
   if (res.success) {
+    // Update nama di sidebar dengan nama dari API response
+    if (res.name) {
+      document.querySelector('.user-name').textContent = res.name;
+      document.querySelector('.user-avatar').textContent = res.name.charAt(0).toUpperCase();
+    }
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').classList.add('visible');
     toast(`Selamat datang, ${res.name}!`, 'success');
