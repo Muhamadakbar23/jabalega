@@ -709,6 +709,7 @@ async function openModal(table, id) {
       
       if (isPsatTable) {
         document.getElementById('f-izin').value = r.izin || '';
+        document.getElementById('f-no_telefon').value = r.no_telefon || '';
         document.getElementById('f-email').value = r.email || '';
         document.getElementById('f-link_gdrive').value = r.link_gdrive || '';
         document.getElementById('f-tanggal_terbit').value = r.tanggal_terbit || '';
@@ -756,6 +757,7 @@ async function saveData() {
   
   if (isPsatTable) {
     body.izin = document.getElementById('f-izin').value.trim();
+    body.no_telefon = document.getElementById('f-no_telefon').value.trim();
     body.email = document.getElementById('f-email').value.trim();
     body.link_gdrive = document.getElementById('f-link_gdrive').value.trim();
     body.tanggal_terbit = document.getElementById('f-tanggal_terbit').value;
